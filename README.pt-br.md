@@ -1,3 +1,5 @@
+# Clean Architecture Example - Cafeteria App
+
 <div align="justify"> Esta aplicação exemplifica a implementação de uma arquitetura hexagonal utilizando Spring Boot e Java 17. A arquitetura 
 hexagonal é um padrão popular para separar a lógica de negócios da infraestrutura, permitindo flexibilidade nas escolhas 
 de tecnologia e facilitando testes isolados da lógica de negócios.
@@ -53,6 +55,8 @@ denominados Orders (Pedidos) e Payments (Pagamentos), respectivamente. Esses por
 armazenamento e recuperação de pedidos e pagamentos.
 </div>
 
+<br/>
+
 ![Hexagonal Architecture](images/coffee-shop-use-cases.svg)
 
 ## Funcionamento de uma Transaçāo
@@ -62,6 +66,8 @@ envolvido em uma transação. Em vez de anotar diretamente os métodos dos casos
 orientada a aspectos (AOP) é utilizada para adicionar comportamento transacional sem alterar o código principal. Embora 
 não abordado em detalhes aqui, AOP permite a adição de preocupações transversais à aplicação sem modificar a lógica principal.
 </div>
+
+<br/>
 
 ```java
 public class TransactionalUseCaseExecutor {
@@ -76,6 +82,8 @@ public class TransactionalUseCaseExecutor {
 <div align="justify"> Basicamente, o código encontra todas as classes anotadas com @UseCase e aplica o TransactionalUseCaseAspect aos métodos 
 dessa classe. Isso adiciona mais uma qualidade útil à anotação @UseCase que foi criada.
 </div>
+
+<br/>
 
 ```java
 @Aspect
