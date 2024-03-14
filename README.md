@@ -22,7 +22,7 @@ choices and facilitating isolated testing of business logic.
 
 ## Usage
 
-To create an order, send a POST request to `/api/v1/order`.
+To create an order, send a POST request to `http://your_address:your_port/api/v1/order`.
 
 ```json
 {
@@ -38,7 +38,7 @@ To create an order, send a POST request to `/api/v1/order`.
 }
 ```
 
-To pay for an order, send a POST request to /api/v1/payment/{id}, where {id} is the order ID.
+To pay for an order, send a POST request to `http://your_address:your_port/api/v1/payment/{id}`, where `{id}` is the order ID.
 
 ```json
 {
