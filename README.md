@@ -1,5 +1,5 @@
-[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
-[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/victorcosta555/clean-architecture-example)
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/victorcosta555/clean-architecture-example/blob/master/README.pt-br.md)
 
 <div align="justify"> This application exemplifies the implementation of a hexagonal architecture using Spring Boot and Java 17. Hexagonal 
 architecture is a popular pattern for separating business logic from infrastructure, enabling flexibility in technology 
