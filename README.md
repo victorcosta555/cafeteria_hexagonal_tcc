@@ -57,6 +57,8 @@ and PreparingCoffee. Additionally, secondary ports for storing orders and paymen
 Payments, respectively. These secondary ports handle storage and retrieval operations for orders and payments.
 </div>
 
+<br/>
+
 ![Hexagonal Architecture](images/coffee-shop-use-cases.svg)
 
 ## Transaction Handling
@@ -66,6 +68,8 @@ transaction. Instead of directly annotating use case methods with @Transactional
 employed to add transactional behavior without altering the core code. While not covered in detail here, AOP enables the 
 addition of cross-cutting concerns to the application without modifying the primary logic.
 </div>
+
+<br/>
 
 ```java
 public class TransactionalUseCaseExecutor {
@@ -79,6 +83,8 @@ public class TransactionalUseCaseExecutor {
 <div align="justify"> Basically, the code finds any classes annotated with @UseCase and applies the TransactionalUseCaseAspect to the methods 
 in that class. This brings another useful quality to the @UseCase annotation that was created.
 </div>
+
+<br/>
 
 ```java
 @Aspect
