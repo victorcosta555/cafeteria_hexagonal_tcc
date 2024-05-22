@@ -22,8 +22,8 @@
     </properties>
 
     <modules>
-        <module>coffeeshop-infrastructure</module>
-        <module>coffeeshop-application</module>
+        <module>cafeteria-infraestrutura</module>
+        <module>cafeteria-aplicacao</module>
     </modules>
 
 </project>
