@@ -19,23 +19,23 @@ de tecnologia e facilitando testes isolados da lógica de negócios.
 
 ## Usando a Aplicacao
 
-Para criar um pedido envie uma requisicao POST para `http://seu_endereco:sua_porta/api/v1/order`
+Para criar um pedido envie uma requisicao POST para `http://seu_endereco:sua_porta/api/v1/pedido`
 
 ```json
 {
-    "location": "IN_STORE",
+    "localConsumoPedido": "IN_STORE",
     "items": [
         {
             "drink": "LATTE",
             "quantity": 1,
             "milk": "WHOLE",
-            "size": "LARGE"
+            "tamanhoBebida": "LARGE"
         }
     ]
 }
 ```
 
-Para pagar um pedido sendo uma requisicao POST para `http://seu_endereco:sua_porta/api/v1/payment/{id}` onde `{id}` igual o ID do pedido
+Para pagar um pedido sendo uma requisicao POST para `http://seu_endereco:sua_porta/api/v1/pagamento/{id}` onde `{id}` igual o ID do pedido
 
 ```json
 {

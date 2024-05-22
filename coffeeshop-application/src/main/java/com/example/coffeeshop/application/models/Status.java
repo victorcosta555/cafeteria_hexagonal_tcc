@@ -2,9 +2,9 @@ package com.example.coffeeshop.application.models;
 
 public enum Status {
 
-    PAYMENT_EXPECTED,
-    PAID,
-    PREPARING,
-    READY,
-    TAKEN
+    ESPERANDO_PAGAMENTO,
+    PAGO,
+    EM_PREPARO,
+    PRONTO,
+    ENTREGUE;
 }

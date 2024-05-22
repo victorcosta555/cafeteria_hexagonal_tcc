@@ -10,35 +10,35 @@ choices and facilitating isolated testing of business logic.
 
 ## Features
 
-- Customers can place coffee orders with various specifications, such as type, milk preference, size, and whether it's for in-store or takeaway.
-- Customers can add additional items to their order before payment.
-- Orders can be cancelled by customers before payment.
+- Customers can place coffee pedidos with various specifications, such as type, milk preference, tamanhoBebida, and whether it's for in-store or takeaway.
+- Customers can add additional items to their pedido before pagamento.
+- Orders can be cancelled by customers before pagamento.
 - Orders become immutable once paid.
-- Customers can pay for orders using a credit card.
-- Upon payment, customers receive a receipt.
-- Baristas can start preparing orders once they are paid.
-- Baristas can mark orders as ready once preparation is complete.
-- Customers can retrieve their orders once they are marked as ready.
+- Customers can pay for pedidos using a credit card.
+- Upon pagamento, customers receive a recibo.
+- Baristas can start preparing pedidos once they are paid.
+- Baristas can mark pedidos as ready once preparation is complete.
+- Customers can retrieve their pedidos once they are marked as ready.
 
 ## Usage
 
-To create an order, send a POST request to `http://your_address:your_port/api/v1/order`.
+To create an pedido, send a POST request to `http://your_address:your_port/api/v1/pedido`.
 
 ```json
 {
-    "location": "IN_STORE",
+    "localConsumoPedido": "IN_STORE",
     "items": [
         {
             "drink": "LATTE",
             "quantity": 1,
             "milk": "WHOLE",
-            "size": "LARGE"
+            "tamanhoBebida": "LARGE"
         }
     ]
 }
 ```
 
-To pay for an order, send a POST request to `http://your_address:your_port/api/v1/payment/{id}`, where `{id}` is the order ID.
+To pay for an pedido, send a POST request to `http://your_address:your_port/api/v1/pagamento/{id}`, where `{id}` is the pedido ID.
 
 ```json
 {
@@ -55,8 +55,8 @@ To pay for an order, send a POST request to `http://your_address:your_port/api/v
 
 <div align="justify"> This application adopts the hexagonal architecture, emphasizing the separation of business logic from infrastructure. 
 It identifies two primary actors: customers and baristas. Accordingly, it introduces two primary ports: OrderingCoffee 
-and PreparingCoffee. Additionally, secondary ports for storing orders and payments are introduced, named Orders and 
-Payments, respectively. These secondary ports handle storage and retrieval operations for orders and payments.
+and PreparingCoffee. Additionally, secondary ports for storing pedidos and pagamentos are introduced, named Orders and 
+Payments, respectively. These secondary ports handle storage and retrieval operations for pedidos and pagamentos.
 </div>
 
 <br/>

@@ -1,9 +1,9 @@
 package com.example.coffeeshop.config;
 
-import com.example.coffeeshop.application.ports.out.Orders;
-import com.example.coffeeshop.application.ports.out.Payments;
-import com.example.coffeeshop.application.textFitures.out.stub.InMemoryOrders;
-import com.example.coffeeshop.application.textFitures.out.stub.InMemoryPayments;
+import com.example.coffeeshop.application.ports.out.Pedidos;
+import com.example.coffeeshop.application.ports.out.Pagamentos;
+import com.example.coffeeshop.application.textFitures.out.stub.PedidosEmMemoria;
+import com.example.coffeeshop.application.textFitures.out.stub.PagamentosEmMemoria;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Import;
 public class DomainTestConfig {
 
     @Bean
-    public Orders orders() {
-        return new InMemoryOrders();
+    public Pedidos orders() {
+        return new PedidosEmMemoria();
     }
 
     @Bean
-    public Payments payments() {
-        return new InMemoryPayments();
+    public Pagamentos payments() {
+        return new PagamentosEmMemoria();
     }
 }
