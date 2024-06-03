@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.example.cafeteria.aplicacao.textFitures.order.PedidoTestFactory.aReadyOrder;
-import static com.example.cafeteria.aplicacao.textFitures.order.PedidoTestFactory.anOrder;
-import static com.example.cafeteria.aplicacao.textFitures.payment.PagamentosTestFactory.aPaymentForOrder;
+import static com.example.cafeteria.aplicacao.textFitures.order.PedidoTestFactory.umPedidoPronto;
+import static com.example.cafeteria.aplicacao.textFitures.order.PedidoTestFactory.umPedido;
+import static com.example.cafeteria.aplicacao.textFitures.payment.PagamentosTestFactory.umPagametoParaPedido;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,8 +27,8 @@ public class ReciboControllerTest {
 
     @Test
     void readReceipt() throws Exception {
-        var order = pedidos.savePedido(anOrder());
-        pagamentos.save(aPaymentForOrder(order));
+        var order = pedidos.savePedido(umPedido());
+        pagamentos.save(umPagametoParaPedido(order));
 
         mockMvc.perform(get("/api/v1/receipt/{id}", order.getId()))
                 .andExpect(status().isOk());
@@ -36,7 +36,7 @@ public class ReciboControllerTest {
 
     @Test
     void completeOrder() throws Exception {
-        var order = pedidos.savePedido(aReadyOrder());
+        var order = pedidos.savePedido(umPedidoPronto());
 
         mockMvc.perform(delete("/api/v1/receipt/{id}", order.getId()))
                 .andExpect(status().isOk());

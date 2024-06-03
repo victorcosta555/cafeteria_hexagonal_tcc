@@ -5,11 +5,11 @@ import com.example.cafeteria.aplicacao.modelos.Pagamento;
 
 import java.time.LocalDate;
 
-import static com.example.cafeteria.aplicacao.textFitures.payment.CartaoDeCreditoTestFactory.aCreditCard;
+import static com.example.cafeteria.aplicacao.textFitures.payment.CartaoDeCreditoTestFactory.umCartaoDeCredito;
 
 public class PagamentosTestFactory {
 
-    public static Pagamento aPaymentForOrder(Pedido pedido) {
-        return new Pagamento(pedido.getId(), aCreditCard(), LocalDate.now());
+    public static Pagamento umPagametoParaPedido(Pedido pedido) {
+        return new Pagamento(pedido.getId(), umCartaoDeCredito(), LocalDate.now());
     }
 }

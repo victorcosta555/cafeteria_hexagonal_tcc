@@ -13,7 +13,7 @@ import java.time.Year;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.example.cafeteria.aplicacao.textFitures.payment.CartaoDeCreditoTestFactory.aCreditCard;
+import static com.example.cafeteria.aplicacao.textFitures.payment.CartaoDeCreditoTestFactory.umCartaoDeCredito;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -26,7 +26,7 @@ public class PagamentosJpaAdapterTest {
     @Test
     void creatingPaymentReturnsPersistedPayment() {
         var now = LocalDate.now();
-        var creditCard = aCreditCard();
+        var creditCard = umCartaoDeCredito();
         var payment = new Pagamento(UUID.randomUUID(), creditCard, now);
 
         var persistedPayment = pagamentos.save(payment);

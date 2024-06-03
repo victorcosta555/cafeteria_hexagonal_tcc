@@ -7,7 +7,7 @@ import java.time.Year;
 
 public class CartaoDeCreditoTestFactory {
 
-    public static CartaoDeCredito aCreditCard() {
+    public static CartaoDeCredito umCartaoDeCredito() {
         return new CartaoDeCredito("Michael Faraday", "11223344", Month.JANUARY, Year.of(2023));
     }
 }

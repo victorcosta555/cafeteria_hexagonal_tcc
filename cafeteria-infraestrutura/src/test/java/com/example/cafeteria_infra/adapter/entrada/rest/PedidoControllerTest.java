@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.example.cafeteria.aplicacao.textFitures.order.PedidoTestFactory.anOrder;
+import static com.example.cafeteria.aplicacao.textFitures.order.PedidoTestFactory.umPedido;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,7 +43,7 @@ public class PedidoControllerTest {
 
     @Test
     void updateOrder() throws Exception {
-        var order = pedidos.savePedido(anOrder());
+        var order = pedidos.savePedido(umPedido());
 
         mockMvc.perform(put("/api/v1/order/{id}", order.getId())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -53,7 +53,7 @@ public class PedidoControllerTest {
 
     @Test
     void cancelOrder() throws Exception {
-        var order = pedidos.savePedido(anOrder());
+        var order = pedidos.savePedido(umPedido());
 
         mockMvc.perform(delete("/api/v1/order/{id}", order.getId()))
                 .andExpect(status().isNoContent());

@@ -26,102 +26,111 @@ public class TestDeAceitacao {
 
     private Pedidos pedidos;
     private Pagamentos pagamentos;
-    private PedidoCafe customer;
+    private PedidoCafe cafeteria;
     private PreparandoCafe barista;
 
     @BeforeEach
     public void setup() {
         pedidos = new PedidosEmMemoria();
         pagamentos = new PagamentosEmMemoria();
-        customer = new Cafeteria(pedidos, pagamentos);
+        cafeteria = new Cafeteria(pedidos, pagamentos);
         barista = new MaquinaCafe(pedidos);
     }
 
     @Test
-    void customerCanOrderCoffee() {
-        var orderToMake = new Pedido(LocalConsumoPedido.LOJA, List.of(new ItemPedido(Bebida.CAPPUCCINO, TipoLeite.DESNATADO, TamanhoBebida.PEQUENO, 1)));
+    void cliente_pode_fazer_pedido() {
+        var pedidoFeito = new Pedido(LocalConsumoPedido.LOJA,
+                List.of(new ItemPedido(Bebida.CAPPUCCINO, TipoLeite.DESNATADO, TamanhoBebida.PEQUENO, 1)));
 
-        var order = customer.fazerPedido(orderToMake);
+        var compra = cafeteria.fazerPedido(pedidoFeito);
 
-        Assertions.assertThat(order.getLocalConsumoPedido()).isEqualTo(LocalConsumoPedido.LOJA);
-        Assertions.assertThat(order.getItems()).containsExactly(new ItemPedido(Bebida.CAPPUCCINO, TipoLeite.DESNATADO, TamanhoBebida.PEQUENO, 1));
-        assertThat(order.getStatus()).isEqualTo(Status.ESPERANDO_PAGAMENTO);
+        Assertions.assertThat(compra.getLocalConsumoPedido())
+                .isEqualTo(LocalConsumoPedido.LOJA);
+
+        Assertions.assertThat(compra.getItems())
+                .containsExactly(new ItemPedido(Bebida.CAPPUCCINO, TipoLeite.DESNATADO, TamanhoBebida.PEQUENO, 1));
+
+        assertThat(compra.getStatus()).isEqualTo(Status.ESPERANDO_PAGAMENTO);
     }
 
 
     @Test
-    void customerCanUpdateTheOrderBeforePaying() {
-        var orderWithOneItem = new Pedido(LocalConsumoPedido.VIAGEM, List.of(new ItemPedido(Bebida.LATTE, TipoLeite.INTEGRAL, TamanhoBebida.GRANDE, 1)));
-        var orderWithTwoItems = new Pedido(LocalConsumoPedido.VIAGEM, List.of(new ItemPedido(Bebida.LATTE, TipoLeite.INTEGRAL, TamanhoBebida.GRANDE, 2)));
+    void cliente_pode_atualizar_pedido_antes_pagamento() {
+        var compraComUmItem = new Pedido(LocalConsumoPedido.VIAGEM,
+                List.of(new ItemPedido(Bebida.LATTE, TipoLeite.INTEGRAL, TamanhoBebida.GRANDE, 1)));
 
-        var order = customer.fazerPedido(orderWithOneItem);
-        var updatedOrder = customer.atualizarPedido(order.getId(), orderWithTwoItems);
+        var compraComDoisItems = new Pedido(LocalConsumoPedido.VIAGEM,
+                List.of(new ItemPedido(Bebida.LATTE, TipoLeite.INTEGRAL, TamanhoBebida.GRANDE, 2)));
 
-        Assertions.assertThat(updatedOrder.getItems()).containsExactly(new ItemPedido(Bebida.LATTE, TipoLeite.INTEGRAL, TamanhoBebida.GRANDE, 2));
+        var compra = cafeteria.fazerPedido(compraComUmItem);
+        var compraAtualizada = cafeteria.atualizarPedido(compra.getId(), compraComDoisItems);
+
+        Assertions.assertThat(compraAtualizada.getItems())
+                .containsExactly(new ItemPedido(Bebida.LATTE, TipoLeite.INTEGRAL, TamanhoBebida.GRANDE, 2));
     }
 
     @Test
-    void customerCanCancelTheOrderBeforePaying() {
-        var existingOrder = pedidos.savePedido(anOrder());
+    void cliente_pode_cancelar_pedido_antes_do_pagamento() {
+        var pedidoSalvo = pedidos.savePedido(umPedido());
 
-        customer.cancelarPedido(existingOrder.getId());
+        cafeteria.cancelarPedido(pedidoSalvo.getId());
 
-        assertThatThrownBy(() -> pedidos.findPedidoById(existingOrder.getId())).isInstanceOf(PedidoNaoEncontrado.class);
+        assertThatThrownBy(() -> pedidos.findPedidoById(pedidoSalvo.getId())).isInstanceOf(PedidoNaoEncontrado.class);
     }
 
     @Test
-    void customerCanPayTheOrder() {
-        var existingOrder = pedidos.savePedido(anOrder());
-        var creditCard = CartaoDeCreditoTestFactory.aCreditCard();
+    void cliente_pode_pagar_pedido() {
+        var pedidoSalvo = pedidos.savePedido(umPedido());
+        var cartaoDeCredito = CartaoDeCreditoTestFactory.umCartaoDeCredito();
 
-        var payment = customer.pagarPedido(existingOrder.getId(), creditCard);
+        var pagamento = cafeteria.pagarPedido(pedidoSalvo.getId(), cartaoDeCredito);
 
-        Assertions.assertThat(payment.pedidoId()).isEqualTo(existingOrder.getId());
-        Assertions.assertThat(payment.cartaoDeCredito()).isEqualTo(creditCard);
-        assertThat(pedidos.findPedidoById(existingOrder.getId()).getStatus()).isEqualTo(Status.PAGO);
+        Assertions.assertThat(pagamento.pedidoId()).isEqualTo(pedidoSalvo.getId());
+        Assertions.assertThat(pagamento.cartaoDeCredito()).isEqualTo(cartaoDeCredito);
+        assertThat(pedidos.findPedidoById(pedidoSalvo.getId()).getStatus()).isEqualTo(Status.PAGO);
     }
 
     @Test
-    void noChangesAllowedWhenOrderIsPaid() {
-        var existingOrder = pedidos.savePedido(aPaidOrder());
+    void nenhuma_mudanca_e_possivel_apos_pagamento() {
+        var pedidoSalvo = pedidos.savePedido(umPedidoPago());
 
-        assertThatThrownBy(() -> customer.atualizarPedido(existingOrder.getId(), anOrder())).isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(() -> cafeteria.atualizarPedido(pedidoSalvo.getId(), umPedido())).isInstanceOf(IllegalStateException.class);
     }
 
     @Test
-    void customerCanGetReceiptWhenOrderIsPaid() {
-        var existingOrder = pedidos.savePedido(aPaidOrder());
-        var existingPayment = pagamentos.save(PagamentosTestFactory.aPaymentForOrder(existingOrder));
+    void cliente_pode_gerar_recibo_quando_a_pedido_esta_pago() {
+        var pedidoSalvo = pedidos.savePedido(umPedidoPago());
+        var pagamentoSalvo = pagamentos.save(PagamentosTestFactory.umPagametoParaPedido(pedidoSalvo));
 
-        var receipt = customer.lerRecibo(existingOrder.getId());
+        var receipt = cafeteria.lerRecibo(pedidoSalvo.getId());
 
-        Assertions.assertThat(receipt.total()).isEqualTo(existingOrder.getCusto());
-        Assertions.assertThat(receipt.dataPagamento()).isEqualTo(existingPayment.dataPagamento());
+        Assertions.assertThat(receipt.total()).isEqualTo(pedidoSalvo.getCusto());
+        Assertions.assertThat(receipt.dataPagamento()).isEqualTo(pagamentoSalvo.dataPagamento());
     }
 
     @Test
-    void baristaCanStartPreparingTheOrderWhenItIsPaid() {
-        var existingOrder = pedidos.savePedido(aPaidOrder());
+    void barista_pode_preparar_bebida_apos_pedido_ser_paga() {
+        var pedidoSalvo = pedidos.savePedido(umPedidoPago());
 
-        var orderInPreparation = barista.iniciarPreparacaoBebida(existingOrder.getId());
+        var orderInPreparation = barista.iniciarPreparacaoBebida(pedidoSalvo.getId());
 
         assertThat(orderInPreparation.getStatus()).isEqualTo(Status.EM_PREPARO);
     }
 
     @Test
-    void baristaCanMarkTheOrderReadyWhenSheIsFinishedPreparing() {
-        var existingOrder = pedidos.savePedido(anOrderInPreparation());
+    void barista_pode_alterar_status_do_pedido_para_pronto_quando_finalizar_preparo() {
+        var pedidoSalvo = pedidos.savePedido(umPedidoEmPreparacao());
 
-        var preparedOrder = barista.finalizarPreparacaoBebida(existingOrder.getId());
+        var preparedOrder = barista.finalizarPreparacaoBebida(pedidoSalvo.getId());
 
         assertThat(preparedOrder.getStatus()).isEqualTo(Status.PRONTO);
     }
 
     @Test
-    void customerCanTakeTheOrderWhenItIsReady() {
-        var existingOrder = pedidos.savePedido(aReadyOrder());
+    void cliente_pode_retirar_pedido_apos_status_pronto() {
+        var pedidoSalvo = pedidos.savePedido(umPedidoPronto());
 
-        var takenOrder = customer.entregarPedido(existingOrder.getId());
+        var takenOrder = cafeteria.entregarPedido(pedidoSalvo.getId());
 
         assertThat(takenOrder.getStatus()).isEqualTo(Status.ENTREGUE);
     }
