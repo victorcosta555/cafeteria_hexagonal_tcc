@@ -1,28 +1,25 @@
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/victorcosta555/clean-architecture-example)
-[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/victorcosta555/clean-architecture-example/blob/master/README.pt-br.md)
+# Clean Architecture Example - Cafeteria App
 
-# Clean Architecture Example - Coffee Shop
-
-<div align="justify"> This application exemplifies the implementation of a hexagonal architecture using Spring Boot and Java 17. Hexagonal 
-architecture is a popular pattern for separating business logic from infrastructure, enabling flexibility in technology 
-choices and facilitating isolated testing of business logic.
+<div align="justify"> Esta aplicação exemplifica a implementação de uma arquitetura hexagonal utilizando Spring Boot e Java 17. A arquitetura 
+hexagonal é um padrão popular para separar a lógica de negócios da infraestrutura, permitindo flexibilidade nas escolhas 
+de tecnologia e facilitando testes isolados da lógica de negócios.
 </div>
 
-## Features
+## Requisitos 
 
-- Customers can place coffee pedidos with various specifications, such as type, milk preference, tamanhoBebida, and whether it's for in-store or takeaway.
-- Customers can add additional items to their pedido before pagamento.
-- Orders can be cancelled by customers before pagamento.
-- Orders become immutable once paid.
-- Customers can pay for pedidos using a credit card.
-- Upon pagamento, customers receive a recibo.
-- Baristas can start preparing pedidos once they are paid.
-- Baristas can mark pedidos as ready once preparation is complete.
-- Customers can retrieve their pedidos once they are marked as ready.
+- Os clientes podem fazer pedidos de café com várias especificações, como tipo, preferência de leite, tamanho e se é para consumo no local ou para viagem.
+- Os clientes podem adicionar itens adicionais ao seu pedido antes do pagamento.
+- Os pedidos podem ser cancelados pelos clientes antes do pagamento.
+- Os pedidos se tornam imutáveis uma vez pagos.
+- Os clientes podem pagar pelos pedidos usando um cartão de crédito.
+- Após o pagamento, os clientes recebem um recibo.
+- Os baristas podem começar a preparar os pedidos assim que eles forem pagos.
+- Os baristas podem marcar os pedidos como prontos assim que a preparação estiver completa.
+- Os clientes podem retirar seus pedidos assim que forem marcados como prontos.
 
-## Usage
+## Usando a Aplicacao
 
-To create an pedido, send a POST request to `http://your_address:your_port/api/v1/pedido`.
+Para criar um pedido envie uma requisicao POST para `http://seu_endereco:sua_porta/api/v1/pedido`
 
 ```json
 {
@@ -38,7 +35,7 @@ To create an pedido, send a POST request to `http://your_address:your_port/api/v
 }
 ```
 
-To pay for an pedido, send a POST request to `http://your_address:your_port/api/v1/pagamento/{id}`, where `{id}` is the pedido ID.
+Para pagar um pedido sendo uma requisicao POST para `http://seu_endereco:sua_porta/api/v1/pagamento/{id}` onde `{id}` igual o ID do pedido
 
 ```json
 {
@@ -49,26 +46,25 @@ To pay for an pedido, send a POST request to `http://your_address:your_port/api/
 }
 ```
 
+## Resumo da Arquitetura
 
-
-## Architecture Overview
-
-<div align="justify"> This application adopts the hexagonal architecture, emphasizing the separation of business logic from infrastructure. 
-It identifies two primary actors: customers and baristas. Accordingly, it introduces two primary ports: OrderingCoffee 
-and PreparingCoffee. Additionally, secondary ports for storing pedidos and pagamentos are introduced, named Orders and 
-Payments, respectively. These secondary ports handle storage and retrieval operations for pedidos and pagamentos.
+<div align="justify">Esta aplicação adota a arquitetura hexagonal, enfatizando a separação da lógica de negócios da infraestrutura. Identifica
+dois atores principais: clientes e baristas. Assim, introduz dois portos principais: OrderingCoffee (Fazer Pedido de Café) 
+e PreparingCoffee (Preparar Café). Adicionalmente, são introduzidos portos secundários para armazenar pedidos e pagamentos, 
+denominados Orders (Pedidos) e Payments (Pagamentos), respectivamente. Esses portos secundários lidam com operações de 
+armazenamento e recuperação de pedidos e pagamentos.
 </div>
 
 <br/>
 
 ![Hexagonal Architecture](images/coffee-shop-use-cases.svg)
 
-## Transaction Handling
+## Funcionamento de uma Transaçāo
 
-<div align="justify"> Use cases represent natural units of work in the application. To ensure consistency, each use case is wrapped in a 
-transaction. Instead of directly annotating use case methods with @Transactional, aspect-oriented programming (AOP) is 
-employed to add transactional behavior without altering the core code. While not covered in detail here, AOP enables the 
-addition of cross-cutting concerns to the application without modifying the primary logic.
+<div align="justify"> Os casos de uso representam unidades naturais de trabalho na aplicação. Para garantir consistência, cada caso de uso é 
+envolvido em uma transação. Em vez de anotar diretamente os métodos dos casos de uso com @Transactional, a programação 
+orientada a aspectos (AOP) é utilizada para adicionar comportamento transacional sem alterar o código principal. Embora 
+não abordado em detalhes aqui, AOP permite a adição de preocupações transversais à aplicação sem modificar a lógica principal.
 </div>
 
 <br/>
@@ -82,8 +78,9 @@ public class TransactionalUseCaseExecutor {
 }
 ```
 
-<div align="justify"> Basically, the code finds any classes annotated with @UseCase and applies the TransactionalUseCaseAspect to the methods 
-in that class. This brings another useful quality to the @UseCase annotation that was created.
+
+<div align="justify"> Basicamente, o código encontra todas as classes anotadas com @UseCase e aplica o TransactionalUseCaseAspect aos métodos 
+dessa classe. Isso adiciona mais uma qualidade útil à anotação @UseCase que foi criada.
 </div>
 
 <br/>
@@ -112,39 +109,39 @@ public class TransactionalUseCaseAspect {
 }
 ```
 
-## How to Run the Application
+## Cono iniciar a aplicaçāo
 
-To run the application locally, you'll need Java 17, Maven.
+Para iniciar a aplicaçāo localmente você irá precisar de ter Java 17 e Maven.
 
-Follow these steps:
+Siga estes passos:
 
-1. Clone the Repository:
-   2. Clone the repository to your local machine using Git:
+1. Clone o repositorio:
+   2. Clone o repositorio para o seu computador usando o seguinte comando git:
 
 ```bash
 git clone git@github.com:victorcosta555/clean-architecture-example.git
 ```
-2. Navigate to the Project Directory:
+
+2. Navegue ate o local onde o projeto foi clonado 
 
 ```bash
 cd your-project-directory
 ```
-3. Build the Project:
-   4. Use Maven to build the project:
+
+3. Construa o projeto usando o seguinte comando Maven:
 
 ```bash
 mvn clean install
 ```
 
-4. Run the Application:
-   5. Execute the Spring Boot application using the Maven Spring Boot plugin:
+4. Execute a aplicacāo
 
 ```bash
 mvn spring-boot:run
 ```
 
-5. H2 Database Console:
-   6. You can access the H2 database console to view and manage the database by going to the following URL:
+5. H2-console 
+   6. E possivel acessar o console do H2 para acessando o endereço:
 
 ```bash
 http://localhost:8080/h2-console

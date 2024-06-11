@@ -47,7 +47,7 @@ public class TestDeAceitacao {
         Assertions.assertThat(compra.getLocalConsumoPedido())
                 .isEqualTo(LocalConsumoPedido.LOJA);
 
-        Assertions.assertThat(compra.getItems())
+        assertThat(compra.getItems())
                 .containsExactly(new ItemPedido(Bebida.CAPPUCCINO, TipoLeite.DESNATADO, TamanhoBebida.PEQUENO, 1));
 
         assertThat(compra.getStatus()).isEqualTo(Status.ESPERANDO_PAGAMENTO);
@@ -65,7 +65,7 @@ public class TestDeAceitacao {
         var compra = cafeteria.fazerPedido(compraComUmItem);
         var compraAtualizada = cafeteria.atualizarPedido(compra.getId(), compraComDoisItems);
 
-        Assertions.assertThat(compraAtualizada.getItems())
+        assertThat(compraAtualizada.getItems())
                 .containsExactly(new ItemPedido(Bebida.LATTE, TipoLeite.INTEGRAL, TamanhoBebida.GRANDE, 2));
     }
 
@@ -85,8 +85,8 @@ public class TestDeAceitacao {
 
         var pagamento = cafeteria.pagarPedido(pedidoSalvo.getId(), cartaoDeCredito);
 
-        Assertions.assertThat(pagamento.pedidoId()).isEqualTo(pedidoSalvo.getId());
-        Assertions.assertThat(pagamento.cartaoDeCredito()).isEqualTo(cartaoDeCredito);
+        assertThat(pagamento.pedidoId()).isEqualTo(pedidoSalvo.getId());
+        assertThat(pagamento.cartaoDeCredito()).isEqualTo(cartaoDeCredito);
         assertThat(pedidos.findPedidoById(pedidoSalvo.getId()).getStatus()).isEqualTo(Status.PAGO);
     }
 
@@ -104,8 +104,8 @@ public class TestDeAceitacao {
 
         var receipt = cafeteria.lerRecibo(pedidoSalvo.getId());
 
-        Assertions.assertThat(receipt.total()).isEqualTo(pedidoSalvo.getCusto());
-        Assertions.assertThat(receipt.dataPagamento()).isEqualTo(pagamentoSalvo.dataPagamento());
+        assertThat(receipt.total()).isEqualTo(pedidoSalvo.getCusto());
+        assertThat(receipt.dataPagamento()).isEqualTo(pagamentoSalvo.dataPagamento());
     }
 
     @Test

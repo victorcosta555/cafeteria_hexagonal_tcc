@@ -58,7 +58,7 @@ public class Cafeteria implements PedidoCafe {
         var pedido = pedidos.findPedidoById(pedidoId);
         var pagamento = pagamentos.findPagamentoByPedidoId(pedidoId);
 
-        return new Recibo(pedido.getCusto(), pagamento.getDataPagamento());
+        return new Recibo(pedido.getCusto(), pagamento.dataPagamento());
     }
 
     @Override

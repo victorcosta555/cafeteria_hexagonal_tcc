@@ -35,7 +35,7 @@ public class PedidoControllerTest {
 
     @Test
     void createOrder() throws Exception {
-        mockMvc.perform(post("/api/v1/order")
+        mockMvc.perform(post("/api/v1/pedido")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(orderJson))
                 .andExpect(status().isCreated());
@@ -45,7 +45,7 @@ public class PedidoControllerTest {
     void updateOrder() throws Exception {
         var order = pedidos.savePedido(umPedido());
 
-        mockMvc.perform(put("/api/v1/order/{id}", order.getId())
+        mockMvc.perform(put("/api/v1/pedido/{id}", order.getId())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(orderJson))
                 .andExpect(status().isOk());
@@ -55,7 +55,7 @@ public class PedidoControllerTest {
     void cancelOrder() throws Exception {
         var order = pedidos.savePedido(umPedido());
 
-        mockMvc.perform(delete("/api/v1/order/{id}", order.getId()))
+        mockMvc.perform(delete("/api/v1/pedido/{id}", order.getId()))
                 .andExpect(status().isNoContent());
     }
 }

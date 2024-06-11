@@ -40,7 +40,7 @@ class AplicacaoCafeteriaTests {
     }
 
     private UUID placeOrder() throws Exception {
-        var localConsumoPedido = mockMvc.perform(post("/api/v1/order")
+        var localConsumoPedido = mockMvc.perform(post("/api/v1/pedido")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("""
                         {
@@ -91,7 +91,7 @@ class AplicacaoCafeteriaTests {
     }
 
     private void cancelOrder(UUID orderId) throws Exception {
-        mockMvc.perform(delete("/api/v1/order/{id}", orderId))
+        mockMvc.perform(delete("/api/v1/pedido/{id}", orderId))
                 .andExpect(status().isNoContent());
     }
 }

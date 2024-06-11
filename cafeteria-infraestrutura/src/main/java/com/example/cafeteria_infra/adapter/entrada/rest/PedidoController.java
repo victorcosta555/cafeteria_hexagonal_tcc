@@ -11,7 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/order")
+@RequestMapping("/api/v1/pedido")
 @RequiredArgsConstructor
 public class PedidoController {
 
@@ -20,7 +20,7 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<OrderResponse> criarPedido(@RequestBody PedidoRequisicao request, UriComponentsBuilder uriComponentsBuilder) {
         var order = pedidoCafe.fazerPedido(request.toDomain());
-        var location = uriComponentsBuilder.path("/order/{id}")
+        var location = uriComponentsBuilder.path("/pedido/{id}")
                 .buildAndExpand(order.getId())
                 .toUri();
         return ResponseEntity.created(location).body(OrderResponse.fromDomain(order));
